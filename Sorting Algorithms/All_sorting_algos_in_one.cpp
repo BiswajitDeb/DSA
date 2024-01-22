@@ -68,10 +68,64 @@ vector<int> Insertion_sort(vector<int> arr)
         }
         arr[j+1]=temp;
     }
+    return arr;
 }
 
 //Megre sort
+vector<int> Merge(vector<int> arr,int start, int end)
+{
+    int mid=(start+end)/2;
+    int len1=mid-start+1;
+    int len2=end-mid;
 
+    vector<int> first(len1);
+    vector<int> second(len2);
+
+    //copy values
+    int main_array_index=start;
+    for(int i=0;i<len1;i++)
+        first[i]=arr[main_array_index++];
+
+    for(int i=0;i<len2;i++)
+        second[i]=arr[main_array_index++];
+
+    //merge 2 sorted arrays
+    int index1=0;int index2=0;
+    main_array_index=start;
+
+    while(index1<len1 && index2<len2)
+    {
+        if(first[index1]<second[index2])
+            arr[main_array_index++]=first[index1++];
+        else
+            arr[main_array_index++]=second[index2++];
+    }
+
+    while(index1<len1)
+    {
+        arr[main_array_index++]=first[index1++];
+    }
+    while(index2<len2)
+    {
+        arr[main_array_index++]=second[index2++];
+    }
+
+    return arr;
+}
+vector<int> Merge_sort(vector<int> arr,int start,int end)
+{
+    //Base case
+    if(start>=end)
+        return;
+    int mid = (start+end)/2;
+    //left side sorting
+    Merge_sort(arr,start,mid);
+
+    //Right side sorting
+    Merge_sort(arr,mid+1,end);
+
+    return arr;
+}
 //Heap sort
 
 //Quick sort
@@ -99,6 +153,9 @@ int main()
 
     cout<<"\Insertion sort : ";
     print(Insertion_sort(arr));
+
+    cout<<"\Merge sort : ";
+    print(Merge_sort(arr,0,arr.size()-1));
 
     return 0;
 }
